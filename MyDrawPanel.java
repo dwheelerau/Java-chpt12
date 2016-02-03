@@ -1,23 +1,33 @@
 import java.awt.*;
 import javax.swing.*;
+import javax.sound.midi.*;
 
-class MyDrawPanel extends JPanel {
+class MyDrawPanel extends JPanel implements ControllerEventListener{
+
+    boolean msg = false;
+
+    public void controlChange(ShortMessage event){
+        msg = true;
+        repaint();
+    }
 
     public void paintComponent(Graphics g){
+        if (msg){
+
         Graphics2D g2d = (Graphics2D) g;
 
-        int red = (int)(Math.random() * 256);
-        int green = (int)(Math.random() * 256);
-        int blue = (int)(Math.random() * 256);
-        Color startColor = new Color(red, green, blue);
+        int r = (int)(Math.random() * 250);
+        int gr = (int)(Math.random() * 250);
+        int b = (int)(Math.random() * 250);
 
-        red = (int)(Math.random() * 256);
-        green = (int)(Math.random() * 256);
-        blue = (int)(Math.random() * 256);
-        Color endColor = new Color(red, green, blue);
+        g.setColor(new Color(r,gr,b));
 
-        GradientPaint gradient = new GradientPaint(70,70,startColor,150,150, endColor);
-        g2d.setPaint(gradient);
-        g2d.fillOval(70,70,100,100);
+        int ht = (int)((Math.random() * 120)+10);
+        int width = (int)((Math.random() * 120)+10);
+        int x = (int)((Math.random() * 40)+10);
+        int y = (int)((Math.random() * 40)+10);
+        g.fillRect(x, y, width, ht);
+        msg = false;
+        }
     }
 }
